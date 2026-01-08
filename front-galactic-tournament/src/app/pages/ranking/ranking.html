@@ -1,0 +1,29 @@
+<div class="space-y-8 p-8 max-w-6xl mx-auto">
+  <div class="flex items-center justify-between border-b border-slate-800 pb-6">
+    <div>
+      <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-600 tracking-tight">
+        🏆 RANKING GALÁCTICO
+      </h1>
+      <p class="text-slate-400 mt-2">Los guerreros más formidables de la galaxia</p>
+    </div>
+    
+  </div>
+  
+  <div class="bg-slate-900/50 p-1 rounded-2xl border border-slate-800/50 shadow-2xl backdrop-blur-sm">
+    <app-table 
+      [data]="rankingData" 
+      [columns]="columns"
+    ></app-table>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+    <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
+      <h3 class="text-slate-400 text-sm uppercase font-bold tracking-wider mb-2">Total Batallas</h3>
+      <p class="text-3xl font-black text-white">1,245</p>
+    </div>
+    <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
+      <h3 class="text-slate-400 text-sm uppercase font-bold tracking-wider mb-2">Especie Dominante</h3>
+      <p class="text-3xl font-black text-cyan-400">Xenomorph</p>
+    </div>
+  </div>
+</div>

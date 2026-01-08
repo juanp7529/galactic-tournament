@@ -1,0 +1,34 @@
+<div class="w-full overflow-hidden rounded-xl border border-slate-700 bg-slate-900 shadow-xl shadow-black/20">
+  <div class="overflow-x-auto">
+    <table class="w-full text-left text-sm">
+      <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
+        <tr>
+          @for (col of columns; track col.key) {
+            <th class="px-6 py-4 font-bold tracking-wider uppercase text-xs">{{ col.header }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-800">
+        @for (row of data; track $index) {
+          <tr class="transition-colors hover:bg-slate-800/50 group">
+            @for (col of columns; track col.key) {
+              <td class="px-6 py-4">
+                @if (col.render) {
+                  <ng-container *ngTemplateOutlet="col.render; context: { $implicit: row[col.key], row: row }"></ng-container>
+                } @else {
+                  <span class="font-medium text-slate-200 group-hover:text-cyan-400 transition-colors">{{ row[col.key] }}</span>
+                }
+              </td>
+            }
+          </tr>
+        } @empty {
+          <tr>
+            <td [attr.colspan]="columns.length" class="px-6 py-12 text-center text-slate-500 italic">
+              No hay datos disponibles en este cuadrante
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
