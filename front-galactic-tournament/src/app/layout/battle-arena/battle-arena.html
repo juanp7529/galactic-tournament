@@ -1,0 +1,93 @@
+<section class="h-full flex flex-col items-center justify-start md:justify-center p-4 md:p-6 relative overflow-y-auto custom-scrollbar">
+  <h2 class="text-3xl md:text-4xl font-black bg-clip-text 
+  bg-gradient-to-r text-cyan-400 mb-8 md:mb-12 tracking-tight 
+   text-center shrink-0">
+    ARENA DE BATALLA
+  </h2>
+
+  <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 w-full max-w-5xl shrink-0">
+    
+    <div class="relative group w-full max-w-xs">
+      <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+      <div 
+        class="relative w-full h-64 md:h-80 bg-slate-900 border border-slate-700 rounded-2xl p-6 flex flex-col items-center justify-center gap-4 shadow-2xl transition-all"
+        [class.border-cyan-500]="contender1"
+        [class.shadow-cyan-500/20]="contender1"
+      >
+        @if (contender1) {
+          <h3 class="text-xl md:text-2xl font-bold text-white text-center">{{ contender1.name }}</h3>
+          <div class="w-full space-y-2 mt-2">
+            <div class="flex justify-between text-sm">
+              <span class="text-slate-400">Poder</span>
+              <span class="text-cyan-400 font-bold">{{ contender1.power }}</span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+              <div class="bg-cyan-500 h-full rounded-full shadow-[0_0_10px_rgba(6,182,212,0.8)]" [style.width.%]="contender1.power"></div>
+            </div>
+            <p class="text-xs text-center text-slate-500 mt-2">{{ contender1.ability }}</p>
+          </div>
+          <button 
+            (click)="onRemove.emit(1)"
+            class="mt-auto text-red-400 hover:text-red-300 text-sm font-medium transition-colors hover:underline"
+          >
+            Remover
+          </button>
+        } @else {
+          <div class="w-16 h-16 md:w-24 md:h-24 rounded-full bg-slate-800/50 border-2 border-dashed border-slate-600 flex items-center justify-center mb-2">
+            <span class="text-2xl md:text-3xl text-slate-600">+</span>
+          </div>
+          <p class="text-slate-500 font-medium text-center text-sm md:text-base">Selecciona un contendiente</p>
+        }
+      </div>
+    </div>
+    <article class="relative z-10 shrink-0 transform rotate-90 md:rotate-0 my-4 md:my-0">
+      <div class="w-16 h-16 md:w-20 md:h-20 bg-black rounded-full border-4 border-slate-700 flex items-center justify-center shadow-2xl relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-violet-600/20 to-cyan-600/20 animate-pulse"></div>
+        <span class="text-xl md:text-2xl font-black italic text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">VS</span>
+      </div>
+    </article>
+
+    <!-- Contender 2 -->
+    <div class="relative group w-full max-w-xs">
+      <div class="absolute -inset-1 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+      <div 
+        class="relative w-full h-64 md:h-80 bg-slate-900 border border-slate-700 rounded-2xl p-6 flex flex-col items-center justify-center gap-4 shadow-2xl transition-all"
+        [class.border-violet-500]="contender2"
+        [class.shadow-violet-500/20]="contender2"
+      >
+        @if (contender2) {
+          <h3 class="text-xl md:text-2xl font-bold text-white text-center">{{ contender2.name }}</h3>
+          <div class="w-full space-y-2 mt-2">
+            <div class="flex justify-between text-sm">
+              <span class="text-slate-400">Poder</span>
+              <span class="text-violet-400 font-bold">{{ contender2.power }}</span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+              <div class="bg-violet-500 h-full rounded-full shadow-[0_0_10px_rgba(139,92,246,0.8)]" [style.width.%]="contender2.power"></div>
+            </div>
+            <p class="text-xs text-center text-slate-500 mt-2">{{ contender2.ability }}</p>
+          </div>
+          <button 
+            (click)="onRemove.emit(2)"
+            class="mt-auto text-red-400 hover:text-red-300 text-sm font-medium transition-colors hover:underline"
+          >
+            Remover
+          </button>
+        } @else {
+          <div class="w-16 h-16 md:w-24 md:h-24 rounded-full bg-slate-800/50 border-2 border-dashed border-slate-600 flex items-center justify-center mb-2">
+            <span class="text-2xl md:text-3xl text-slate-600">+</span>
+          </div>
+          <p class="text-slate-500 font-medium text-center text-sm md:text-base">Selecciona un contendiente</p>
+        }
+      </div>
+    </div>
+  </div>
+
+  @if (contender1 && contender2) {
+    <div class="mt-8 md:mt-12 shrink-0 pb-6">
+      <app-button variant="primary" class="text-base md:text-lg px-6 py-3 md:px-8 md:py-4 shadow-cyan-500/30 hover:scale-105 transition-transform w-full md:w-auto" (onClick)="onBattle.emit()">
+        ⚔️ INICIAR BATALLA ⚔️
+      </app-button>
+    </div>
+  }
+</section>
