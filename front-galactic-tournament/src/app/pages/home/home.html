@@ -2,17 +2,17 @@
 <div class="bg-slate-950 flex flex-col md:grid md:grid-cols-[30rem_1fr] h-screen p-4 md:p-6 gap-4 md:gap-6 mx-auto box-border overflow-hidden">
   <div class="h-full hidden md:block overflow-hidden">
     <app-species-list
-      (onSelect)="speciesService.selectSpecies($event)"
-      (onAdd)="speciesService.addSpecies($event)"
+      (onSelect)="battleService.selectContender($event)"
+      [species]="species()"
+      (onSubmit)="handleSubmit($event)"
     ></app-species-list>
   </div>
   
-  <!-- Mobile Species List Button/Drawer can be added here if needed, or keep it simple for now -->
   <div class="md:hidden">
-    <!-- Mobile implementation will be handled separately or simple list for now -->
     <app-species-list
-      (onSelect)="speciesService.selectSpecies($event)"
-      (onAdd)="speciesService.addSpecies($event)"
+      (onSelect)="battleService.selectContender($event)"
+      [species]="species()"
+      (onSubmit)="handleSubmit($event)"
     ></app-species-list>
   </div>
 
@@ -20,9 +20,11 @@
     <app-battle-arena
       [contender1]="contender1()"
       [contender2]="contender2()"
-      (onRemove)="speciesService.removeContender($event)"
-      (onReset)="speciesService.resetBattle()"
+      (onRemove)="battleService.removeContender($event)"
+      (onReset)="battleService.resetBattle()"
       (onBattle)="handleBattleStart()"
+      (onCloseWinner)="handleCloseWinner()"
+      [winnerName]="winnerName()"
     ></app-battle-arena>
   </div>
 </div>

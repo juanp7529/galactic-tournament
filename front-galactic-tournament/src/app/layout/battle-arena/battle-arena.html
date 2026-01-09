@@ -91,3 +91,9 @@
     </div>
   }
 </section>
+
+<app-winner-modal 
+  [isOpen]="!!winnerName" 
+  [winnerName]="winnerName || ''" 
+  (onClose)="onCloseWinner.emit()"
+></app-winner-modal>

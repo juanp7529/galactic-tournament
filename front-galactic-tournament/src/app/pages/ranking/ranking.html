@@ -11,7 +11,7 @@
   
   <div class="bg-slate-900/50 p-1 rounded-2xl border border-slate-800/50 shadow-2xl backdrop-blur-sm">
     <app-table 
-      [data]="rankingData" 
+      [data]="rankingData()" 
       [columns]="columns"
     ></app-table>
   </div>
@@ -19,11 +19,11 @@
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
     <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
       <h3 class="text-slate-400 text-sm uppercase font-bold tracking-wider mb-2">Total Batallas</h3>
-      <p class="text-3xl font-black text-white">1,245</p>
+      <p class="text-3xl font-black text-white">{{ totalBattles() }}</p>
     </div>
     <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
       <h3 class="text-slate-400 text-sm uppercase font-bold tracking-wider mb-2">Especie Dominante</h3>
-      <p class="text-3xl font-black text-cyan-400">Xenomorph</p>
+      <p class="text-3xl font-black text-cyan-400">{{ rankingData()[0]?.name || '---' }}</p>
     </div>
   </div>
 </div>

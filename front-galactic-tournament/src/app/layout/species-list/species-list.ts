@@ -1,11 +1,19 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+  signal,
+} from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Species } from '../../shared/types/species/species';
-import { Button } from "../../shared/components/ui/button/button";
-import { Card } from "../../shared/components/ui/card/card";
-import { Modal } from "../../shared/components/ui/modal/modal";
-import { InputComponent } from "../../shared/components/ui/input/input";
-import { SpeciesService } from '../../core/services/species/species.service';
+import { Species } from '../../shared/types/species/species.interface';
+import { Button } from '../../shared/components/ui/button/button';
+import { Card } from '../../shared/components/ui/card/card';
+import { Modal } from '../../shared/components/ui/modal/modal';
+import { InputComponent } from '../../shared/components/ui/input/input';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,44 +24,44 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpeciesList {
-  species: Species[] = [
-    { id: '1', name: 'Xenomorph', power: 95, ability: 'Venomous bite' },
-    { id: '2', name: 'Predator', power: 90, ability: 'Predator language' },
-    { id: '3', name: 'Wookie', power: 85, ability: 'Laser vision' },
-    { id: '4', name: 'Ewok', power: 30, ability: 'Telekinesis' },
-    { id: '5', name: 'Klingon', power: 88, ability: 'Klingon language' },
-  ];
+  @Input() species: Species[] = [];
   @Output() onSelect = new EventEmitter<Species>();
-  @Output() onAdd = new EventEmitter<Species>();
-
+  @Output() onSubmit = new EventEmitter<Species>();
+  private router = inject(Router);
   isOpen = signal<boolean>(false);
-
   form = new FormGroup({
     name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    power: new FormControl<number | null>(null, { validators: [Validators.required, Validators.min(0), Validators.max(100)] }),
+    power: new FormControl<number | null>(null, {
+      validators: [
+        Validators.required,
+        Validators.pattern('^[0-9]+$'),
+        Validators.min(0),
+        Validators.max(100),
+      ],
+    }),
     ability: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
   });
-  speciesService = inject(SpeciesService);
-  router = inject(Router);
 
-
-
-  handleSubmit(): void {
+  async handleSubmit(): Promise<void> {
     if (this.form.valid) {
       const { name, power, ability } = this.form.getRawValue();
       const newSpecies: Species = {
-        id: crypto.randomUUID(),
         name: name,
         power: Number(power),
-        ability: ability
+        ability: ability,
       };
-      this.onAdd.emit(newSpecies);
+      this.onSubmit.emit(newSpecies);
       this.handleClose();
+      this.form.reset();
+    } else {
+      this.form.markAllAsTouched();
+      this.form.updateValueAndValidity();
     }
   }
 
   handleAdd(): void {
     this.isOpen.set(true);
+    this.form.reset();
   }
 
   handleClose(): void {
