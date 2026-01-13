@@ -1,31 +1,20 @@
 import Database from 'better-sqlite3';
 import { Database as DatabaseType } from 'better-sqlite3';
 
-/**
- * Configuración de la base de datos SQLite en memoria
- * Singleton pattern para asegurar una única instancia de la BD
- */
+
 class DatabaseConfig {
   private static instance: DatabaseConfig;
   private db: DatabaseType;
 
   private constructor() {
-    // Base de datos en memoria - perfecto para desarrollo y testing
-    // Si quieres usar archivo, cambia ':memory:' por './database.sqlite'
     this.db = new Database(':memory:', { 
       verbose: process.env.NODE_ENV === 'development' ? console.log : undefined 
     });
-    
-    // Habilitar foreign keys
+
     this.db.pragma('foreign_keys = ON');
-    
-    // Inicializar esquema
     this.initializeSchema();
   }
 
-  /**
-   * Obtener instancia única de la base de datos
-   */
   public static getInstance(): DatabaseConfig {
     if (!DatabaseConfig.instance) {
       DatabaseConfig.instance = new DatabaseConfig();
@@ -33,16 +22,12 @@ class DatabaseConfig {
     return DatabaseConfig.instance;
   }
 
-  /**
-   * Obtener conexión a la base de datos
-   */
+
   public getConnection(): DatabaseType {
     return this.db;
   }
 
-  /**
-   * Inicializar esquema de base de datos
-   */
+
   private initializeSchema(): void {
     this.db.exec(`
       CREATE TABLE IF NOT EXISTS specie (
@@ -90,17 +75,12 @@ class DatabaseConfig {
     console.log('Esquema de base de datos inicializado correctamente');
   }
 
-  /**
-   * Cerrar conexión de base de datos
-   */
+
   public close(): void {
     this.db.close();
     console.log('🔌 Conexión a base de datos cerrada');
   }
 
-  /**
-   * Limpiar todas las tablas (útil para testing)
-   */
   public clearAllTables(): void {
     this.db.exec('DELETE FROM battle');
     this.db.exec('DELETE FROM specie');
